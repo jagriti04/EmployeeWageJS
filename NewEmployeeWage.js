@@ -23,10 +23,8 @@ function getWorkingHours(empCheck) {
     switch (empCheck) {
         case IS_PART_TIME:
             return PART_TIME_HOURS;
-            break;
         case IS_FULL_TIME:
             return FULL_TIME_HOURS;
-            break;
         default:
             return 0;
     }
@@ -36,3 +34,13 @@ let empCheck = Math.floor(Math.random() * 10) % 3;
 empHrs = getWorkingHours(empCheck);
 let empWage = empHrs * WAGE_PER_HOUR;
 console.log("Employee Wage: " + empWage);
+
+// UC 4 wage for a month
+const NUM_OF_WORKING_DAYS = 20;
+empHrs = 0;
+for (let day = 0; day < NUM_OF_WORKING_DAYS; day++) {
+    let empCheck = Math.floor(Math.random() * 10) % 3;
+    empHrs += getWorkingHours(empCheck);
+}
+empWage = empHrs * WAGE_PER_HOUR;
+console.log("Total Hrs: " + empHrs + " employee wage " + empWage);
