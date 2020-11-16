@@ -6,6 +6,7 @@ class EmployeePayrollData {
         this.salary = params[2];
         this.gender = params[3];
         this.startDate = params[4];
+        this.pincode = params[5];
     }
 
     // getter and setter method
@@ -20,7 +21,7 @@ class EmployeePayrollData {
     get id() { return this._id; }
     set id(id) {
         let idRegex = RegExp('^[1-9]\d*$');
-        if (idRegex.test(id))
+        if (idRegex.test(id) || id === undefined)
             this._id = id;
         else throw 'Id is Incorrect!';
     }
@@ -39,39 +40,63 @@ class EmployeePayrollData {
         else throw 'gender is invalid';
     }
 
+    get pincode() { return this._pincode; }
+    set pincode(pincode) {
+        let pinRegex = RegExp('^([0-9]{6})$');
+        if (pincode === undefined || pinRegex.test(pincode))
+            this._pincode = pincode;
+        else throw 'Pincode is not valid!!';
+    }
+
     // method
     toString() {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const empDate = this.startDate === undefined ? "undefined" :
             new Date(this.startDate).toLocaleDateString("en-US", options);
         return "id=" + this.id + ", name='" + this.name + "' , salary=" + this.salary
-            + ", gender=" + this.gender + ", startDate=" + empDate;
+            + ", gender=" + this.gender + ", startDate=" + empDate + ", pincode=" + this.pincode;
     }
 }
 
 let employeePayrollData = new EmployeePayrollData(1, "Mark", 30000);
 console.log(employeePayrollData.toString());
+
+// name invalid
 try {
     employeePayrollData.name = "john";
     console.log(employeePayrollData.toString());
 } catch (e) {
     console.error(e);
 }
+
+// all valid
 try {
-    let newEmployeePayrollData = new EmployeePayrollData(1, "Terrisa", 30000, "F", new Date());
+    let newEmployeePayrollData = new EmployeePayrollData(1, "Terrisa", 30000, "F", new Date(), '400088');
     console.log(newEmployeePayrollData.toString());
 } catch (e1) {
     console.error(e1);
 }
+
+// salary invalid
 try {
     let newEmployeePayrollData2 = new EmployeePayrollData(2, "Jeff", -30000, "M", new Date());
     console.log(newEmployeePayrollData2.toString());
 } catch (e2) {
     console.error(e2);
 }
+
+// gender invalid
 try {
-    let newEmployeePayrollData3 = new EmployeePayrollData(1, "Bill", 40000, "b", new Date());
+    let newEmployeePayrollData3 = new EmployeePayrollData(2, "Bill", 40000, "b", new Date());
     console.log(newEmployeePayrollData3.toString());
 } catch (e3) {
     console.error(e3);
+}
+
+// pin invalid
+try {
+    let newEmployeePayrollData = new EmployeePayrollData(4, "Bella", 30000, "F", new Date(), '480050B');
+    console.log(newEmployeePayrollData.toString());
+} catch (e4) {
+    console.error(e4);
 }
