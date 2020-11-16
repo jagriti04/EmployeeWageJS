@@ -7,6 +7,7 @@ class EmployeePayrollData {
         this.gender = params[3];
         this.startDate = params[4];
         this.pincode = params[5];
+        this.email = params[6];
     }
 
     // getter and setter method
@@ -48,13 +49,21 @@ class EmployeePayrollData {
         else throw 'Pincode is not valid!!';
     }
 
+    get email() { return this._email; }
+    set email(email) {
+        let emailRegex = RegExp('^[a-zA-z]{1}([.]{0,1}[a-zA-z0-9+-]{1,}){0,}[@]{1}[a-zA-Z0-9]{1,}[.]{1}[a-z]{2,3}([.]{1}[a-z]{2}){0,1}$');
+        if (email === undefined || emailRegex.test(email))
+            this._email = email;
+        else throw 'Email is not valid';
+    }
     // method
     toString() {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const empDate = this.startDate === undefined ? "undefined" :
             new Date(this.startDate).toLocaleDateString("en-US", options);
         return "id=" + this.id + ", name='" + this.name + "' , salary=" + this.salary
-            + ", gender=" + this.gender + ", startDate=" + empDate + ", pincode=" + this.pincode;
+            + ", gender=" + this.gender + ", startDate=" + empDate + ", pincode=" + this.pincode
+            + ", email=" + this.email;
     }
 }
 
@@ -71,7 +80,7 @@ try {
 
 // all valid
 try {
-    let newEmployeePayrollData = new EmployeePayrollData(1, "Terrisa", 30000, "F", new Date(), '400088');
+    let newEmployeePayrollData = new EmployeePayrollData(1, "Terrisa", 30000, "F", new Date(), '400088', 'abc@yahoo.com');
     console.log(newEmployeePayrollData.toString());
 } catch (e1) {
     console.error(e1);
@@ -99,4 +108,12 @@ try {
     console.log(newEmployeePayrollData.toString());
 } catch (e4) {
     console.error(e4);
+}
+
+// email invalid
+try {
+    let newEmployeePayrollData = new EmployeePayrollData(5, "Abcde", 30000, "F", new Date(), '400088', 'abc@.com.my');
+    console.log(newEmployeePayrollData.toString());
+} catch (e5) {
+    console.error(e5);
 }
